@@ -1,204 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DJ BIGSAM RSA Studio V2 - FINAL ALL</title>
-<style>
-body{background:#0a0a0f;color:#fff;font-family:system-ui;padding:10px;margin:0}
-.card{background:#15151f;border:1px solid #222;border-radius:12px;padding:12px;margin:8px 0}
-.btn{width:100%;padding:13px;border-radius:10px;border:0;font-weight:900;margin-top:6px;font-size:14px}
-.primary{background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#000}
-.record{background:#222;color:#fff;border:1px solid #444}
-.rec{background:#ef4444;color:#fff}
-textarea{width:100%;height:160px;background:#000;color:#fff;border:2px solid #7c3aed;border-radius:10px;padding:12px;font-size:16px}
-.result{background:#0e0e16;border:1px solid #222;padding:10px;border-radius:8px;margin-top:8px;white-space:pre-wrap;font-size:12px}
-audio{width:100%;margin-top:6px}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DJ BIGSAM RSA - Typing Only</title>
 </head>
-<body>
+<body style="background:#000;color:#fff;font-family:Arial;padding:12px">
 
-<div style="text-align:center;padding:8px;border-bottom:2px solid #7c3aed"><b>DJ BIGSAM RSA <span style="color:#22d3ee">Studio V2</span> • 0789313670</b></div>
+<h2 style="color:#22d3ee;text-align:center">DJ BIGSAM RSA Studio V2<br><small style="color:#888">0789313670</small></h2>
 
-<div class="card">
-<h3 style="color:#22d3ee;margin:0">📝 Lyrics - Type (Always Works)</h3>
-<!-- TEXTAREA IS FIRST AND SIMPLE - NOTHING CAN BLOCK IT -->
-<textarea id="lyrics" placeholder="TYPE HERE - This always works, instant:
+<textarea id="lyrics" placeholder="TYPE HERE - THIS WILL WORK - JUST TYPE" style="width:100%;height:220px;background:#111;color:#fff;border:3px solid #22d3ee;border-radius:10px;padding:12px;font-size:20px"></textarea>
 
-Ngiyamthanda wena
-You are my everything..."></textarea>
-<div id="liveCount" style="font-size:11px;color:#888;margin-top:4px">0 words - Typing instant</div>
-</div>
+<div id="live" style="background:#111;border:1px solid #333;padding:10px;border-radius:8px;margin-top:8px;min-height:40px;color:#22d3ee;white-space:pre-wrap">Your typing appears here...</div>
 
-<div class="card">
-<h3 style="color:#22d3ee;margin:0 0 8px 0">🎙️ Record to Lyrics + 📁 Upload Song</h3>
+<button onclick="testType()" style="width:100%;padding:15px;background:#22d3ee;color:#000;font-weight:900;border-radius:10px;border:0;margin-top:10px;font-size:18px">TEST - Click to show what you typed</button>
 
-<button class="btn record" id="recBtn" onclick="toggleRec()">🎤 Record - Sing to Write Lyrics</button>
+<button onclick="save()" style="width:100%;padding:15px;background:#222;color:#fff;font-weight:900;border-radius:10px;border:0;margin-top:8px;border:1px solid #333">💾 Save Lyrics</button>
 
-<button class="btn record" onclick="document.getElementById('file').click()">📁 Upload Song - Transcribe to Lyrics</button>
-<input type="file" id="file" accept="audio/*" hidden>
+<a href="https://wa.me/27789313670" style="display:block;text-align:center;background:#25D366;color:#000;padding:14px;border-radius:10px;text-decoration:none;font-weight:900;margin-top:10px">📱 WhatsApp 0789313670</a>
 
-<audio id="player" controls style="display:none"></audio>
-<div id="recStatus" style="font-size:11px;color:#888;margin-top:6px">✅ Ready - Record or Upload or Type - All work</div>
-</div>
-
-<div class="card">
-<div id="exactLabel" style="font-size:10px;color:#666">YOUR EXACT LYRICS THAT AI WILL EXPLAIN:</div>
-<div id="exact" style="color:#22d3ee;font-style:italic;font-size:13px;min-height:20px">...type/record/upload...</div>
-
-<button class="btn primary" onclick="explain()">🤖 EXPLAIN MY EXACT LYRICS</button>
-<button class="btn" style="background:#222;color:#fff;border:1px solid #333" onclick="savePDF()">📄 Save PDF</button>
-<a href="https://wa.me/27789313670" id="waBtn" style="display:block;text-align:center;background:#25D366;color:#000;padding:12px;border-radius:10px;text-decoration:none;font-weight:900;margin-top:6px">📱 Send to 0789313670</a>
-
-<div class="result" id="explainBox">AI explanation of YOUR lyrics will appear here</div>
-</div>
-
-<script type="module">
-// Load Whisper ONLY when needed - not blocking typing
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2';
-window.myPipeline = pipeline;
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-// ===== TYPING - SIMPLE AND INSTANT - CANNOT FAIL =====
-let lyrics = document.getElementById('lyrics');
-let exact = document.getElementById('exact');
-let liveCount = document.getElementById('liveCount');
+// NO IMPORTS - PLAIN JS ONLY - CANNOT FAIL
+var box = document.getElementById('lyrics');
+var live = document.getElementById('live');
 
-lyrics.addEventListener('input', function(){
-  let t = this.value;
-  exact.textContent = t || '...';
-  liveCount.textContent = (t.trim()?t.trim().split(/\s+/).length:0) + ' words - Typing instant ✅';
-  document.getElementById('waBtn').href = "https://wa.me/27789313670?text=" + encodeURIComponent("Hi DJ BIGSAM lyrics:\n"+t.slice(0,400));
+box.addEventListener('input', function(){
+  live.textContent = this.value;
+});
+
+function testType(){
+  var t = box.value;
+  if(!t){ alert('Type something first! Box is empty'); return; }
+  alert('YOU TYPED:\n\n' + t + '\n\nTyping works! ✅');
+  live.textContent = t;
+}
+
+function save(){
+  var t = box.value;
+  if(!t){ alert('Type first'); return; }
   localStorage.setItem('dj_lyrics', t);
-});
-
-// Load saved lyrics
-lyrics.value = localStorage.getItem('dj_lyrics') || '';
-exact.textContent = lyrics.value || '...';
-liveCount.textContent = (lyrics.value.trim()?lyrics.value.trim().split(/\s+/).length:0) + ' words';
-
-// ===== RECORD - SIMPLE - DOES NOT BLOCK TYPING =====
-let isRec = false, mediaRec, chunks=[], recognition=null, finalTxt='';
-
-async function toggleRec(){
-  let btn = document.getElementById('recBtn');
-  let status = document.getElementById('recStatus');
-  
-  if(!isRec){
-    // Speech recognition for live writing
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(SR){
-      recognition = new SR();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-ZA';
-      finalTxt = lyrics.value ? lyrics.value + '\n' : '';
-      recognition.onresult = (e)=>{
-        let interim='';
-        for(let i=e.resultIndex;i<e.results.length;i++){
-          let tr = e.results[i][0].transcript;
-          if(e.results[i].isFinal) finalTxt += tr + '\n';
-          else interim += tr;
-        }
-        lyrics.value = finalTxt + interim;
-        lyrics.dispatchEvent(new Event('input'));
-      };
-      try{ recognition.start(); }catch{}
-    }
-    
-    try{
-      let stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      mediaRec = new MediaRecorder(stream);
-      chunks=[];
-      mediaRec.ondataavailable = e=>chunks.push(e.data);
-      mediaRec.onstop = ()=>{
-        let blob = new Blob(chunks,{type:'audio/webm'});
-        let p = document.getElementById('player');
-        p.src = URL.createObjectURL(blob);
-        p.style.display='block';
-        status.textContent = '✅ Recorded - Audio saved + lyrics written';
-        stream.getTracks().forEach(t=>t.stop());
-      };
-      mediaRec.start();
-      isRec=true;
-      btn.textContent='⏹️ Stop Recording';
-      btn.className='btn rec';
-      status.textContent='🎤 Recording... Sing, lyrics writing live...';
-    }catch{
-      status.textContent='❌ Mic blocked - Allow mic in Chrome settings';
-      isRec=false;
-    }
-  }else{
-    isRec=false;
-    try{ recognition.stop(); }catch{}
-    try{ mediaRec.stop(); }catch{}
-    btn.textContent='🎤 Record - Sing to Write Lyrics';
-    btn.className='btn record';
-    document.getElementById('recStatus').textContent='✅ Stopped - Lyrics ready';
-  }
+  alert('Saved! ' + t.length + ' chars');
 }
 
-// ===== UPLOAD SONG TO LYRICS - LOADS AI ONLY ON UPLOAD =====
-let transcriber = null;
-document.getElementById('file').addEventListener('change', async (e)=>{
-  let file = e.target.files[0];
-  if(!file) return;
-  let p = document.getElementById('player');
-  p.src = URL.createObjectURL(file);
-  p.style.display='block';
-  p.play();
-  let status = document.getElementById('recStatus');
-  let explainBox = document.getElementById('explainBox');
-  
-  status.textContent = '📁 Uploaded: '+file.name+' - Loading AI (20sec first time)...';
-  explainBox.textContent = 'Transcribing your song "'+file.name+'" to lyrics...';
-  
-  try{
-    if(!transcriber){
-      status.textContent = '🤖 Downloading Whisper AI (one time, 30MB)... Keep app open';
-      transcriber = await window.myPipeline('automatic-speech-recognition','Xenova/whisper-tiny.en',{quantized:true});
-    }
-    status.textContent = '🎧 Transcribing...';
-    let url = URL.createObjectURL(file);
-    let out = await transcriber(url,{chunk_length_s:30});
-    URL.revokeObjectURL(url);
-    
-    // ADD to lyrics, don't replace typing
-    lyrics.value = (lyrics.value ? lyrics.value + '\n\n' : '') + '[From uploaded song: '+file.name+']\n' + out.text;
-    lyrics.dispatchEvent(new Event('input'));
-    status.textContent = '✅ Transcribed from uploaded song!';
-    explainBox.textContent = '✅ From your uploaded song:\n\n"'+out.text+'"\n\nNow click EXPLAIN MY EXACT LYRICS';
-  }catch(err){
-    status.textContent = '⚠️ Transcribe needs internet - But you can play song and click Record to sing along, lyrics will write';
-    explainBox.textContent = 'Upload worked! Play song below, then click Record and sing along - it will write lyrics. Or type manually (always works).';
-  }
-});
-
-function explain(){
-  let txt = lyrics.value.trim();
-  if(!txt){ alert('Type, Record or Upload lyrics first!'); return; }
-  document.getElementById('explainBox').textContent = '🤖 About YOUR exact lyrics:\n\n"'+txt+'"\n\nAnalyzing...';
-  
-  // Instant local
-  let local = '🤖 DJ BIGSAM - YOUR LYRICS:\n\n"'+txt+'"\n\nMood: '+(txt.toLowerCase().includes('thanda')?'Love Amapiano':'Amapiano')+'\nWords: '+txt.split(/\s+/).length+'\nBPM: 115\nChords: F - G - Em - Am\n\nTip: Add log drum on hook';
-  document.getElementById('explainBox').textContent = local + '\n\n⏳ Getting deeper AI...';
-  
-  fetch("https://text.pollinations.ai/"+encodeURIComponent("Explain these exact lyrics for Durban Amapiano: "+txt))
-    .then(r=>r.text())
-    .then(ai=>{
-      document.getElementById('explainBox').textContent = '🤖 DJ BIGSAM AI - YOUR EXACT LYRICS:\n\n"'+txt+'"\n\n--- ANALYSIS ---\n'+ai+'\n\n📞 0789313670';
-    }).catch(()=>{
-      document.getElementById('explainBox').textContent = local + '\n\n📞 0789313670 (Offline)';
-    });
-}
-
-function savePDF(){
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF();
-  doc.text("DJ BIGSAM RSA Studio V2 - 0789313670",10,15);
-  doc.text(doc.splitTextToSize(lyrics.value,180),10,25);
-  doc.save("DJ_BIGSAM_Lyrics.pdf");
+// Load saved
+var saved = localStorage.getItem('dj_lyrics');
+if(saved){
+  box.value = saved;
+  live.textContent = saved;
 }
 </script>
+
 </body>
 </html>
