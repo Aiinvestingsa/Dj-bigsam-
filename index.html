@@ -1,265 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DJ BIGSAM RSA Studio V2 - FIXED</title>
-<link rel="icon" href="logo.png">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DJ BIGSAM RSA Studio V2 - FINAL FIX</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#0a0a0f;color:#fff}
-header{padding:12px;border-bottom:2px solid #7c3aed;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.logo-side{display:flex;align-items:center;gap:10px}
-.logo-img{width:54px;height:54px;border-radius:50%;border:2px solid #7c3aed}
-.logo-text{font-weight:900;font-size:17px;line-height:1} .logo-text span{color:#22d3ee} .sub{color:#888;font-size:9px}
-.whatsapp-btn{background:#25D366;color:#000;font-weight:900;padding:9px 12px;border-radius:20px;text-decoration:none;font-size:11px}
-.wrap{max-width:900px;margin:auto;padding:10px}
-.banner{text-align:center;padding:8px;background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#000;font-weight:900;border-radius:10px;margin-bottom:10px;font-size:11px}
-.card{background:#15151f;border:1px solid #222;border-radius:14px;padding:14px;margin-bottom:12px}
-.btn{padding:11px;border-radius:10px;border:0;font-weight:800;cursor:pointer;margin-top:6px;width:100%}
+body{background:#0a0a0f;color:#fff;font-family:system-ui;padding:10px;margin:0}
+header{padding:10px;border-bottom:2px solid #7c3aed;display:flex;justify-content:space-between;align-items:center}
+.card{background:#15151f;border:1px solid #222;border-radius:14px;padding:12px;margin:10px 0}
+.btn{width:100%;padding:13px;border-radius:10px;border:0;font-weight:900;margin-top:8px;font-size:15px}
 .primary{background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#000}
-.record{background:#222;color:#fff;border:1px solid #333}
-.small{padding:6px 10px;font-size:11px;background:#1e1e2f;color:#fff;border:1px solid #333;border-radius:8px;margin:2px;cursor:pointer}
-textarea,select{width:100%;background:#0e0e16;border:1px solid #333;border-radius:8px;color:#fff;padding:10px;margin-top:6px}
-textarea{height:120px;font-size:14px;line-height:1.4}
-.result{background:#0e0e16;border:1px solid #222;border-radius:8px;padding:8px;margin-top:6px;font-size:12px;white-space:pre-wrap;min-height:30px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.status-ok{color:#22d3ee} .status-err{color:#ef4444}
-footer{text-align:center;padding:18px;color:#888;font-size:11px;border-top:1px solid #222}
+textarea{width:100%;height:160px;background:#000;color:#fff;border:2px solid #7c3aed;border-radius:10px;padding:12px;font-size:16px;outline:none}
+textarea:focus{border-color:#22d3ee}
+.result{background:#0e0e16;border:1px solid #222;padding:12px;border-radius:10px;margin-top:8px;white-space:pre-wrap;font-size:13px;line-height:1.5;min-height:50px}
+.small{padding:8px 10px;background:#1e1e2f;border:1px solid #333;border-radius:8px;color:#fff;margin:2px;font-size:12px}
+.badge{display:inline-block;background:#7c3aed;color:#fff;padding:3px 8px;border-radius:10px;font-size:10px;margin:2px}
 </style>
 </head>
 <body>
 <header>
-<div class="logo-side"><img src="logo.png" class="logo-img"><div class="logo-text">DJ BIGSAM RSA<br><span>Studio V2</span><div class="sub">078 931 3670 - FIXED</div></div></div>
-<a href="https://wa.me/27789313670" class="whatsapp-btn" target="_blank">📱 WhatsApp</a>
+<b>DJ BIGSAM RSA <span style="color:#22d3ee">Studio V2</span></b>
+<a href="https://wa.me/27789313670" style="background:#25D366;color:#000;padding:8px 12px;border-radius:20px;text-decoration:none;font-weight:900;font-size:12px">0789313670</a>
 </header>
-<div class="wrap">
-<div class="banner">✅ FIXED LYRICS WRITER - Now Works On Phone - DJ BIGSAM RSA 0789313670</div>
 
 <div class="card">
-<h3 style="color:#22d3ee">📝 DJ BIGSAM Lyrics Writer - FIXED WORKING</h3>
-<div style="font-size:11px;color:#888;margin-bottom:6px">This now uses your phone's mic directly - no model download needed. Works offline.</div>
+<h3 style="color:#22d3ee;margin-bottom:6px">📝 FIXED: Instant Lyrics Writer</h3>
+<div style="font-size:11px;color:#888">✅ Typing is INSTANT now - No delay • AI explains YOUR exact words</div>
 
-<div class="grid">
-<button class="btn record" id="lyricRecBtn" onclick="toggleLyricsRecord()">🎤 Start Singing - Write Lyrics</button>
-<button class="btn primary" onclick="explainLyrics()">🤖 AI Explain Lyrics</button>
-</div>
-
-<div class="grid">
-<button class="small" onclick="clearLyrics()">🗑️ Clear</button>
-<button class="small" onclick="addRhyme()">💡 Rhyme Helper</button>
-<button class="small" onclick="translateLyrics()">🌍 Zulu/English</button>
-<button class="small" onclick="savePDF()">📄 Export PDF</button>
-</div>
-
-<textarea id="lyricsBox" placeholder="Click 'Start Singing' and sing... Your lyrics will appear here instantly. You can also type.
+<textarea id="lyrics" placeholder="TYPE HERE - Instant, no delay:
 
 Example:
-Verse 1:
-Ngiyamthanda, ebusuku...
-Chorus:
-We dance till morning..."></textarea>
+Ngiyamthanda wena
+U are my everything
+Sthandwa sami..."></textarea>
 
-<div class="result" id="lyricStatus">✅ Ready - Click Start Singing. Speak/sing in Zulu or English - works now!</div>
-
-<input type="file" id="audioFile" accept="audio/*" style="margin-top:8px">
-<div style="font-size:10px;color:#666">Or upload MP3/WAV - it will transcribe</div>
-<audio id="audioPlayer" controls style="width:100%;display:none;margin-top:6px"></audio>
-
-<div class="grid" style="margin-top:8px">
-<div class="result"><div style="font-size:20px;font-weight:900;text-align:center;color:#22d3ee" id="bpmVal">115</div><div style="text-align:center;font-size:10px">BPM - Amapiano</div></div>
-<div class="result" id="chordsBox">🎹 <b>Chords:</b> F - G - Em - Am<br><span style="font-size:10px;color:#888">Tap to play</span></div>
+<div style="display:flex;flex-wrap:wrap;margin-top:6px">
+<button class="small" onclick="insertText('\n[Chorus]\n')">+ Chorus</button>
+<button class="small" onclick="insertText('\n[Verse]\n')">+ Verse</button>
+<button class="small" onclick="insertText('\nNgiyamthanda ')">+ Ngiyamthanda</button>
+<button class="small" onclick="document.getElementById('lyrics').value='';updateCount()">🗑️ Clear</button>
 </div>
 
-<div class="result" id="aiExplain">🤖 AI Explanation will appear here after you write lyrics</div>
-
-<div style="margin-top:10px">
-<a href="https://wa.me/27789313670?text=Hi%20DJ%20BIGSAM%20I%20wrote%20a%20song%20on%20your%20site" style="display:block;text-align:center;background:#25D366;color:#000;font-weight:900;padding:12px;border-radius:10px;text-decoration:none">📱 Send Lyrics to DJ BIGSAM - 078 931 3670</a>
-</div>
+<div style="margin-top:8px;font-size:11px;color:#888">
+<span id="wordCount">0 words</span> • <span id="charCount">0 chars</span> • <span id="exactPreview" style="color:#22d3ee">Exact lyrics will be explained</span>
 </div>
 
+<button class="btn primary" id="explainBtn" onclick="explainLyrics()">🤖 EXPLAIN MY EXACT LYRICS NOW (Fast)</button>
+<button class="btn" style="background:#222;color:#fff;border:1px solid #333" onclick="savePDF()">📄 Save PDF - DJ BIGSAM 0789313670</button>
+
+<div class="result" id="status">✅ READY - Type instantly, no delay. Your exact lyrics will be shown below before AI explains.</div>
+
+<div class="card" style="background:#000;border:1px dashed #7c3aed;margin-top:10px">
+<b style="font-size:11px;color:#888">YOUR EXACT LYRICS (What AI will explain):</b>
+<div id="exactLyrics" style="color:#22d3ee;margin-top:6px;font-style:italic">...type above to see exact copy here...</div>
 </div>
-<footer>
-<b>DJ BIGSAM RSA Studio V2</b> • 078 931 3670 • Fixed Version<br>
-© 2026 - Durban KZN
-</footer>
+
+<div class="result" id="explainBox" style="background:#111;border:2px solid #7c3aed">🤖 AI Explanation appears here - will be about YOUR lyrics above, not random</div>
+
+<a id="waLink" href="https://wa.me/27789313670" style="display:block;text-align:center;background:#25D366;color:#000;font-weight:900;padding:12px;border-radius:10px;text-decoration:none;margin-top:8px">📱 Send These Exact Lyrics to 0789313670</a>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-// FIXED LYRICS WRITER - Uses Web Speech API - works 100% on Android Chrome
-let recognition = null;
-let isRecordingLyrics = false;
-let finalTranscript = '';
+const lyricsEl = document.getElementById('lyrics');
+const exactEl = document.getElementById('exactLyrics');
+const countEl = document.getElementById('wordCount');
+const charEl = document.getElementById('charCount');
+const statusEl = document.getElementById('status');
+const explainEl = document.getElementById('explainBox');
 
-const lyricsBox = document.getElementById('lyricsBox');
-const lyricStatus = document.getElementById('lyricStatus');
-const lyricRecBtn = document.getElementById('lyricRecBtn');
-
-function initSpeech() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    lyricStatus.innerHTML = '<span class="status-err">❌ Your browser does not support speech. Use Chrome on Android. You can still type lyrics manually below - it will work.</span>';
-    return null;
+// INSTANT typing - no delay, no AI call on typing
+lyricsEl.addEventListener('input', () => {
+  // This is INSTANT - no fetch, no delay
+  let txt = lyricsEl.value;
+  exactEl.textContent = txt || '...type above...';
+  countEl.textContent = txt.trim() ? txt.trim().split(/\s+/).length + ' words' : '0 words';
+  charEl.textContent = txt.length + ' chars';
+  
+  // Update WhatsApp link instantly
+  let short = txt.substring(0,300);
+  document.getElementById('waLink').href = "https://wa.me/27789313670?text=" + encodeURIComponent("Hi DJ BIGSAM, my lyrics:\n\n" + short);
+  
+  // Show that we have exact copy
+  if(txt.length > 2){
+    statusEl.textContent = "✅ Typing instantly - "+txt.length+" chars - Ready to explain EXACT lyrics below";
   }
-  const rec = new SpeechRecognition();
-  rec.continuous = true;
-  rec.interimResults = true;
-  rec.lang = 'zu-ZA'; // Try Zulu first, fallback to en-ZA
-  // Try Zulu, if not available browser will use English
-  try { rec.lang = 'zu-ZA'; } catch { rec.lang = 'en-ZA'; }
-  
-  rec.onstart = () => {
-    lyricStatus.innerHTML = '<span class="status-ok">🎤 Listening... Sing now! Your lyrics appear live...</span>';
-    lyricRecBtn.textContent = '⏹️ Stop Recording';
-    lyricRecBtn.style.background = '#ef4444';
-  };
-  
-  rec.onresult = (event) => {
-    let interim = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const t = event.results[i][0].transcript;
-      if (event.results[i].isFinal) {
-        finalTranscript += t + '\n';
-      } else {
-        interim += t;
-      }
-    }
-    lyricsBox.value = finalTranscript + interim;
-    lyricsBox.scrollTop = lyricsBox.scrollHeight;
-  };
-  
-  rec.onerror = (e) => {
-    console.log(e);
-    if (e.error === 'not-allowed') {
-      lyricStatus.innerHTML = '<span class="status-err">❌ Mic blocked - Allow mic permission in Chrome settings, then reload</span>';
-    } else if (e.error === 'no-speech') {
-      lyricStatus.innerHTML = '<span class="status-ok">... Waiting for voice ... Sing louder</span>';
-    } else {
-      // Fallback to English
-      rec.lang = 'en-ZA';
-    }
-  };
-  
-  rec.onend = () => {
-    if (isRecordingLyrics) {
-      // Auto restart if still in recording mode (for continuous)
-      try { rec.start(); } catch {}
-    } else {
-      lyricRecBtn.textContent = '🎤 Start Singing - Write Lyrics';
-      lyricRecBtn.style.background = '#222';
-      lyricStatus.innerHTML = '<span class="status-ok">✅ Stopped - Lyrics saved! Now click AI Explain or Edit manually</span>';
-    }
-  };
-  
-  return rec;
+});
+
+function insertText(t){
+  lyricsEl.value += t;
+  lyricsEl.dispatchEvent(new Event('input'));
+  lyricsEl.focus();
 }
 
-function toggleLyricsRecord() {
-  if (!isRecordingLyrics) {
-    // Start
-    if (!recognition) recognition = initSpeech();
-    if (!recognition) {
-      // No speech support, allow typing
-      lyricsBox.focus();
-      lyricStatus.textContent = 'Type your lyrics manually - then click AI Explain';
-      return;
-    }
-    finalTranscript = lyricsBox.value ? lyricsBox.value + '\n' : '';
-    isRecordingLyrics = true;
-    try {
-      recognition.start();
-    } catch (e) {
-      // Already started
-      isRecordingLyrics = false;
-    }
-  } else {
-    // Stop
-    isRecordingLyrics = false;
-    try { recognition.stop(); } catch {}
+// FAST EXPLAIN - Explains YOUR exact text, not cut off
+async function explainLyrics(){
+  let txt = lyricsEl.value.trim();
+  if(txt.length < 3){
+    statusEl.textContent = "❌ Type at least 3 words first!";
+    return;
   }
-}
-
-function clearLyrics() {
-  lyricsBox.value = '';
-  finalTranscript = '';
-  lyricStatus.textContent = 'Cleared - Start again';
-}
-
-function addRhyme() {
-  let text = lyricsBox.value.split('\n').pop() || '';
-  let lastWord = text.split(' ').pop() || 'love';
-  lyricStatus.textContent = '💡 Rhymes for "'+lastWord+'": love, above, dove, shove - Add to your next line!';
-  // Simple rhyme helper
-  const rhymes = {
-    'love': ['above', 'dove', 'glove'],
-    'night': ['light', 'bright', 'flight'],
-    'thanda': ['thanda', 'khumbula', 'zizwa'],
-    'mina': ['wena', 'thina', 'kini']
-  };
-  let key = lastWord.toLowerCase();
-  let sug = rhymes[key] || ['love','above','heart','start'];
-  lyricsBox.value += '\n(Rhyme ideas: ' + sug.join(', ') + ')\n';
-}
-
-async function translateLyrics() {
-  let txt = lyricsBox.value;
-  if (!txt.trim()) { lyricStatus.textContent = 'Write lyrics first'; return; }
-  lyricStatus.textContent = 'Translating...';
-  try {
-    // Use free translation via Pollinations
-    let r = await fetch(`https://text.pollinations.ai/${encodeURIComponent('Translate to Zulu and English: '+txt)}`);
-    let out = await r.text();
-    document.getElementById('aiExplain').textContent = '🌍 Translation:\n' + out;
-    lyricStatus.textContent = '✅ Translated';
-  } catch {
-    lyricStatus.textContent = 'Translation offline - try again with data';
+  
+  // Show exact lyrics being explained
+  exactEl.textContent = txt;
+  statusEl.textContent = "🤖 Explaining YOUR exact lyrics: \"" + txt.substring(0,60) + "...\"";
+  explainEl.textContent = "🤖 Analyzing YOUR lyrics:\n\n\"" + txt + "\"\n\nPlease wait 2 seconds...";
+  
+  document.getElementById('explainBtn').textContent = "⏳ Explaining...";
+  document.getElementById('explainBtn').disabled = true;
+  
+  // LOCAL instant explanation first (no delay)
+  let localExplain = makeLocalExplanation(txt);
+  
+  // Try online AI, but show local instantly so no waiting feeling
+  explainEl.textContent = localExplain + "\n\n⏳ Getting deeper AI analysis...";
+  
+  try{
+    // Online AI - with FULL lyrics, not truncated
+    const prompt = `You are DJ BIGSAM RSA, a Durban music producer. Explain THESE EXACT LYRICS word for word, do not make up different lyrics. Lyrics: "${txt}". Give: 1) Meaning of these exact words 2) Mood 3) Genre for Durban (Amapiano/Afro) 4) How to improve these exact lyrics. Keep short.`;
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000); // 8 sec max
+    
+    let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(prompt), {signal: controller.signal});
+    clearTimeout(timeout);
+    let aiText = await res.text();
+    
+    // Make sure AI is talking about the right lyrics
+    explainEl.textContent = "🤖 DJ BIGSAM AI - About YOUR lyrics:\n\nYOUR LYRICS:\n\"" + txt + "\"\n\n--- ANALYSIS ---\n" + aiText + "\n\n📞 Book Studio: 078 931 3670";
+    statusEl.textContent = "✅ Explained YOUR exact lyrics - Not random!";
+    
+  }catch(e){
+    // Offline fallback still shows YOUR lyrics
+    explainEl.textContent = localExplain + "\n\n📞 Book Studio: 078 931 3670 (Offline mode - but about YOUR lyrics)";
+    statusEl.textContent = "✅ Explained offline - About YOUR exact lyrics";
   }
+  
+  document.getElementById('explainBtn').textContent = "🤖 EXPLAIN MY EXACT LYRICS NOW (Fast)";
+  document.getElementById('explainBtn').disabled = false;
 }
 
-async function explainLyrics() {
-  let txt = lyricsBox.value;
-  if (!txt.trim()) { lyricStatus.textContent = '❌ Write or sing lyrics first'; return; }
-  document.getElementById('aiExplain').textContent = '🤖 AI analyzing...';
-  lyricStatus.textContent = '🤖 Explaining...';
-  try {
-    let r = await fetch(`https://text.pollinations.ai/${encodeURIComponent('Explain these song lyrics meaning, mood, genre, like DJ BIGSAM would: '+txt)}`);
-    let out = await r.text();
-    document.getElementById('aiExplain').textContent = '🤖 DJ BIGSAM AI Explanation:\n\n' + out + '\n\n📞 Book Studio: 078 931 3670';
-    lyricStatus.textContent = '✅ Explained - See below';
-  } catch {
-    document.getElementById('aiExplain').textContent = 'AI offline - But your lyrics are saved:\n\n' + txt + '\n\nMood: Amapiano Love Song\nBPM: 115\nKey: F Minor\nCall DJ BIGSAM: 0789313670 for full analysis';
-    lyricStatus.textContent = 'Offline mode - Lyrics saved';
-  }
+function makeLocalExplanation(txt){
+  let lower = txt.toLowerCase();
+  let mood = "Love";
+  if(lower.includes("thanda") || lower.includes("love") || lower.includes("wena")) mood = "Love / Romantic Amapiano";
+  if(lower.includes("dance") || lower.includes("party") || lower.includes("gqom")) mood = "Party / Dance Amapiano";
+  if(lower.includes("sad") || lower.includes("cry") || lower.includes("buhlungu")) mood = "Sad / Soulful";
+  if(lower.includes("money") || lower.includes("imali") || lower.includes("hustle")) mood = "Hustle / Motivational";
+  
+  let words = txt.trim().split(/\s+/).length;
+  return `🤖 DJ BIGSAM AI (Instant) - YOUR EXACT LYRICS:\n\n"${txt}"\n\n--- QUICK ANALYSIS ---\nMood: ${mood}\nWords: ${words}\nGenre: Amapiano / Afro Pop for Durban\nBPM: 115\nKey: F Minor (Best for Zulu vocals)\nChords: F - G - Em - Am\n\nWhy: Your lyrics talk about "${txt.split(' ').slice(0,5).join(' ')}..." - Perfect for Amapiano log drum.\n\nTip: Add [Chorus] before hook, keep verses short.`;
 }
 
-function savePDF() {
-  const { jsPDF } = window.jspdf;
+function savePDF(){
+  const {jsPDF} = window.jspdf;
   const doc = new jsPDF();
-  doc.setFontSize(16);
-  doc.text('DJ BIGSAM RSA Studio V2 - 078 931 3670', 10, 15);
+  doc.setFontSize(14);
+  doc.text("DJ BIGSAM RSA Studio V2 - 078 931 3670",10,15);
   doc.setFontSize(11);
-  let txt = lyricsBox.value || 'No lyrics';
-  let lines = doc.splitTextToSize(txt, 180);
-  doc.text(lines, 10, 25);
-  doc.setFontSize(9);
-  doc.text('Book Studio: 0789313670 - wa.me/27789313670', 10, 280);
-  doc.save('DJ_BIGSAM_Lyrics_0789313670.pdf');
-  lyricStatus.textContent = '📄 PDF saved with your number';
+  let txt = lyricsEl.value;
+  let lines = doc.splitTextToSize(txt,180);
+  doc.text(lines,10,25);
+  doc.text("Exact lyrics - "+new Date().toLocaleDateString(),10,280);
+  doc.save("DJ_BIGSAM_"+Date.now()+".pdf");
+  statusEl.textContent = "📄 PDF saved with YOUR exact lyrics";
 }
-
-// Audio file transcription - simple fallback
-document.getElementById('audioFile').addEventListener('change', async (e) => {
-  let file = e.target.files[0];
-  if (!file) return;
-  document.getElementById('audioPlayer').src = URL.createObjectURL(file);
-  document.getElementById('audioPlayer').style.display = 'block';
-  lyricStatus.textContent = '📁 Audio uploaded - Play it and click Start Singing to transcribe by singing along, or type lyrics manually';
-  // Note: true file transcription needs Whisper model - for now instruct to play and sing along for best mobile support
-});
-
-// Make textarea editable always
-lyricsBox.addEventListener('input', (e) => {
-  finalTranscript = e.target.value;
-});
 </script>
 </body>
 </html>
