@@ -3,365 +3,567 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0b0d">
-<title>LYRICS AI RSA — Song to Lyrics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>LYRICS AI RSA | AI Song Transcriber</title>
 <style>
 :root {
-  --gold:#e6bf69;
-  --bg:#0b0b0d;
-  --panel:#171719;
-  --border:#383438;
-  --muted:#aaa8b0;
+  --gold:#f5c451;
+  --gold2:#ffdf86;
+  --bg:#080808;
+  --panel:#141414;
+  --muted:#aaa;
+  --line:#303030;
 }
-* { box-sizing:border-box }
+* { box-sizing:border-box; }
 body {
-  margin:0;background:var(--bg);color:#fff;
-  font-family:Arial,sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.5;
 }
 header {
-  display:flex;justify-content:space-between;align-items:center;
-  padding:18px 5%;border-bottom:1px solid var(--border);
+  padding:24px 16px;
+  text-align:center;
+  background:linear-gradient(135deg,#17130a,#090909 65%);
+  border-bottom:1px solid #4b3a16;
 }
-.logo {color:var(--gold);font-weight:900;font-size:20px}
-.logo span {color:white}
-main {width:min(760px,92%);margin:32px auto}
-.hero {text-align:center;margin-bottom:25px}
-.hero h1 {font-size:clamp(30px,7vw,48px);margin:10px 0}
-.hero h1 span {color:var(--gold)}
-.hero p,.muted {color:var(--muted);line-height:1.6}
-.card {
-  padding:20px;background:var(--panel);
-  border:1px solid var(--border);border-radius:16px;margin-bottom:16px;
+.logo {
+  font-size:clamp(26px,6vw,42px);
+  font-weight:900;
+  letter-spacing:1px;
 }
-.upload {
-  display:block;text-align:center;padding:25px 10px;
-  border:2px dashed #78613a;border-radius:12px;cursor:pointer;
+.logo span { color:var(--gold); }
+header p { margin:8px 0 0; color:#ccc; }
+main { width:min(900px,94%); margin:24px auto 50px; }
+.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
 }
-.upload strong {color:var(--gold)}
-input[type=file] {display:none}
-label {display:block;margin:17px 0 8px}
-select,input[type=text],textarea {
-  width:100%;padding:13px;border-radius:9px;
-  background:#0c0c0e;color:white;border:1px solid var(--border);
+h2 { margin:0 0 14px; font-size:19px; }
+label { display:block; font-size:14px; margin-bottom:7px; color:#ddd; }
+input[type="file"], select, textarea {
+  width:100%;
+  background:#090909;
+  color:#fff;
+  border:1px solid #454545;
+  border-radius:10px;
+  padding:12px;
   font:inherit;
 }
+input[type="file"] { font-size:14px; }
+select { margin-bottom:14px; }
+audio { width:100%; margin-top:14px; }
 button {
-  padding:13px;border:0;border-radius:9px;
-  font-weight:bold;cursor:pointer;
+  border:1px solid #6b531b;
+  border-radius:10px;
+  background:var(--gold);
+  color:#111;
+  font-weight:800;
+  padding:12px 15px;
+  cursor:pointer;
+  font-size:14px;
 }
-button:disabled {opacity:.5;cursor:not-allowed}
-.primary {background:var(--gold);color:#15120a;width:100%;margin-top:14px}
-.secondary {background:#302d30;color:white;border:1px solid #4b4549}
-.actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.actions button {flex:1;min-width:100px}
-audio {width:100%;margin-top:15px}
-textarea {min-height:260px;line-height:1.7;resize:vertical}
-.status {color:var(--gold);font-size:14px;margin-top:12px;overflow-wrap:anywhere}
-.small {font-size:12px;color:var(--muted);line-height:1.6}
-.segment {
-  padding:10px 0;border-bottom:1px solid var(--border);
-  line-height:1.6;overflow-wrap:anywhere;
+button:disabled { opacity:.4; cursor:not-allowed; }
+button.secondary {
+  background:#222;
+  border-color:#444;
+  color:#fff;
 }
-.timestamp {color:var(--gold);font-family:monospace;margin-right:8px}
-footer {text-align:center;color:var(--muted);padding:22px;font-size:12px}
-@media(max-width:480px) {
-  header {padding:14px 4%}
-  .logo {font-size:16px}
-  .card {padding:14px}
+button.danger {
+  background:#381616;
+  border-color:#713030;
+  color:#fff;
+}
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+#status {
+  padding:12px;
+  background:#0b0b0b;
+  border:1px solid #333;
+  border-radius:10px;
+  color:var(--gold2);
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  font-size:14px;
+}
+#progressWrap {
+  height:7px;
+  background:#303030;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:12px;
+}
+#progress {
+  height:100%;
+  width:0;
+  background:var(--gold);
+  transition:width .2s;
+}
+textarea {
+  min-height:280px;
+  resize:vertical;
+  line-height:1.7;
+}
+.hint { color:var(--muted); font-size:13px; }
+.warning {
+  color:#f3d99c;
+  background:#211b0d;
+  border:1px solid #54421b;
+  border-radius:10px;
+  padding:12px;
+  font-size:13px;
+}
+footer {
+  text-align:center;
+  color:#888;
+  font-size:12px;
+  padding:24px;
+}
+@media(max-width:500px) {
+  .panel { padding:15px; }
+  .actions button { flex:1 1 42%; }
 }
 </style>
 </head>
 <body>
 <header>
   <div class="logo">LYRICS <span>AI RSA</span></div>
-  <span class="small">BROWSER EDITION</span>
+  <p>Upload a song. Let AI help you capture the words.</p>
 </header>
 
 <main>
-  <section class="hero">
-    <div style="font-size:35px">🎵</div>
-    <h1>Turn songs into <span>lyrics.</span></h1>
-    <p>Upload audio, listen along, capture recognized speech,
-       edit your transcript and export lyrics with timestamps.</p>
-  </section>
+  <section class="panel">
+    <h2>🎵 1. Upload your song</h2>
+    <label for="audioFile">Choose an audio file</label>
+    <input id="audioFile" type="file" accept="audio/*">
 
-  <section class="card">
-    <label class="upload" for="file">
-      <div style="font-size:32px">⬆</div>
-      <strong>Tap to upload a song</strong>
-      <p class="small">MP3, WAV, M4A, OGG, MP4 and other browser-supported audio</p>
-      <div id="filename" class="muted">No song selected</div>
-    </label>
-    <input id="file" type="file" accept="audio/*,video/mp4,video/webm">
+    <audio id="audioPlayer" controls hidden></audio>
+    <p id="fileInfo" class="hint">No audio selected.</p>
 
-    <audio id="player" controls hidden></audio>
-
-    <label for="language">Recognition language</label>
+    <label for="language">Transcription language</label>
     <select id="language">
-      <option value="en-US">English</option>
-      <option value="zu-ZA">isiZulu (browser support varies)</option>
-      <option value="xh-ZA">isiXhosa (browser support varies)</option>
-      <option value="af-ZA">Afrikaans</option>
-      <option value="st-ZA">Sesotho</option>
-      <option value="tn-ZA">Setswana</option>
-      <option value="nso-ZA">Sepedi</option>
-      <option value="sw-KE">Swahili</option>
-      <option value="lg-UG">Luganda</option>
-      <option value="fr-FR">French</option>
-      <option value="pt-PT">Portuguese</option>
-      <option value="es-ES">Spanish</option>
-      <option value="hi-IN">Hindi</option>
-      <option value="ar-SA">Arabic</option>
+      <option value="auto">Automatic language detection</option>
+      <option value="en">English</option>
+      <option value="zu">isiZulu</option>
+      <option value="xh">isiXhosa</option>
+      <option value="af">Afrikaans</option>
+      <option value="st">Sesotho</option>
+      <option value="tn">Setswana</option>
+      <option value="nso">Sepedi</option>
+      <option value="ts">Xitsonga</option>
+      <option value="ss">siSwati</option>
+      <option value="ve">Tshivenda</option>
+      <option value="nr">isiNdebele</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+      <option value="pt">Portuguese</option>
+      <option value="sw">Swahili</option>
+      <option value="lg">Luganda</option>
+      <option value="ar">Arabic</option>
+      <option value="hi">Hindi</option>
     </select>
 
-    <label for="context">Song or artist (optional)</label>
-    <input id="context" type="text" maxlength="200"
-      placeholder="Song title or artist">
-
-    <button class="primary" id="start">START LIVE RECOGNITION</button>
-    <button class="secondary" id="stop" style="width:100%;margin-top:8px" disabled>
-      STOP RECOGNITION
-    </button>
-
-    <div class="status" id="status" role="status" aria-live="polite">
-      Choose a song to begin.
+    <div class="warning">
+      The model works best with clear speech. Music, background instruments,
+      slang and singing can reduce accuracy. Language options depend on the
+      selected AI model's training and support.
     </div>
-    <p class="small">
-      Recognition uses your browser's microphone speech-recognition service,
-      if supported. Allow microphone access and play the song aloud nearby.
-      Headphones may prevent the microphone from hearing the song.
+
+    <div class="actions">
+      <button id="transcribeBtn" disabled>✨ Transcribe with AI</button>
+      <button id="cancelBtn" class="danger" disabled>Stop processing</button>
+    </div>
+
+    <div style="margin-top:16px" id="status" role="status" aria-live="polite">
+      Select a song to begin.
+    </div>
+    <div id="progressWrap"><div id="progress"></div></div>
+    <p class="hint">
+      First use downloads the AI model. Keep this page open while processing.
+      Long songs may take several minutes.
     </p>
   </section>
 
-  <section class="card">
-    <label for="lyrics">Editable lyrics</label>
-    <textarea id="lyrics" placeholder="Recognized words will appear here. You can edit them."></textarea>
+  <section class="panel">
+    <h2>📝 2. Your lyrics / transcript</h2>
+    <textarea id="transcript" placeholder="Your AI transcript will appear here. You can edit it yourself..."></textarea>
+    <p class="hint">Review and correct the words before downloading. Timestamps may not be available for every result.</p>
     <div class="actions">
-      <button class="secondary" id="copy">Copy lyrics</button>
-      <button class="secondary" id="txt">Download TXT</button>
-      <button class="secondary" id="srt">Download SRT</button>
-      <button class="secondary" id="clear">Clear</button>
+      <button id="copyBtn">Copy lyrics</button>
+      <button id="txtBtn" class="secondary">Download TXT</button>
+      <button id="srtBtn" class="secondary">Download SRT</button>
+      <button id="clearBtn" class="danger">Clear</button>
     </div>
   </section>
 
-  <section class="card">
-    <strong>Timestamped transcript</strong>
-    <p class="small">Timestamps mark when each recognized speech result was received, not exact word-level song timing.</p>
-    <div id="segments" class="muted">No segments yet.</div>
-  </section>
-
-  <section class="card">
-    <strong>Browser-only limitations</strong>
-    <ul class="small">
-      <li>This version does not directly analyze the uploaded audio file.</li>
-      <li>It listens to sound through your microphone while the song plays.</li>
-      <li>Many browsers use online recognition services, so this is not guaranteed to be offline or private.</li>
-      <li>Song instruments and singing often cause recognition errors.</li>
-      <li>Language options depend on the browser's actual support.</li>
-    </ul>
+  <section class="panel">
+    <h2>🔒 Privacy and usage</h2>
+    <p class="hint">
+      Transcription is intended to run locally in your browser. The AI library
+      and model are downloaded from an external hosting service. This page does
+      not upload your song to a custom backend. Avoid closing the tab while the
+      model is loading or processing.
+    </p>
   </section>
 </main>
 
-<footer>LYRICS AI RSA · GitHub Pages edition</footer>
+<footer>LYRICS AI RSA · Browser-based AI transcription</footer>
 
-<script>
-const fileInput = document.getElementById("file");
-const player = document.getElementById("player");
-const filename = document.getElementById("filename");
+<script type="module">
+import { pipeline, env } from
+  "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2";
+
+env.allowLocalModels = false;
+env.useBrowserCache = true;
+
+const audioFile = document.getElementById("audioFile");
+const audioPlayer = document.getElementById("audioPlayer");
+const fileInfo = document.getElementById("fileInfo");
+const languageSelect = document.getElementById("language");
+const transcribeBtn = document.getElementById("transcribeBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const transcript = document.getElementById("transcript");
 const statusBox = document.getElementById("status");
-const lyrics = document.getElementById("lyrics");
-const segmentsBox = document.getElementById("segments");
-const startButton = document.getElementById("start");
-const stopButton = document.getElementById("stop");
+const progress = document.getElementById("progress");
 
+let selectedFile = null;
 let audioURL = null;
-let recognition = null;
-let listening = false;
-let segments = [];
-let finalTranscript = "";
+let transcriber = null;
+let isProcessing = false;
+let stopRequested = false;
+let subtitleSegments = [];
 
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
+function setStatus(message) {
+  statusBox.textContent = message;
+}
+
+function setProgress(value) {
+  progress.style.width = Math.max(0, Math.min(100, value)) + "%";
+}
+
+audioFile.addEventListener("change", () => {
+  const file = audioFile.files?.[0];
   if (!file) return;
 
-  if (audioURL) URL.revokeObjectURL(audioURL);
-  audioURL = URL.createObjectURL(file);
-  player.src = audioURL;
-  player.hidden = false;
-  filename.textContent = file.name;
-  statusBox.textContent =
-    "Song ready. Start recognition, allow microphone access, then play the song aloud.";
-});
-
-function renderSegments() {
-  if (!segments.length) {
-    segmentsBox.textContent = "No segments yet.";
+  if (isProcessing) {
+    setStatus("Stop the current transcription before choosing another file.");
     return;
   }
-  segmentsBox.replaceChildren();
-  for (const item of segments) {
-    const row = document.createElement("div");
-    row.className = "segment";
-    const time = document.createElement("span");
-    time.className = "timestamp";
-    time.textContent = "[" + formatTime(item.time) + "]";
-    row.append(time, document.createTextNode(item.text));
-    segmentsBox.appendChild(row);
-  }
-}
+
+  if (audioURL) URL.revokeObjectURL(audioURL);
+
+  selectedFile = file;
+  audioURL = URL.createObjectURL(file);
+  audioPlayer.src = audioURL;
+  audioPlayer.hidden = false;
+  fileInfo.textContent =
+    `${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+  transcribeBtn.disabled = false;
+  subtitleSegments = [];
+  transcript.value = "";
+  setProgress(0);
+  setStatus("Audio ready. Press Transcribe with AI.");
+});
 
 function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 1000);
-  return String(mins).padStart(2, "0") + ":" +
-    String(secs).padStart(2, "0") + "." +
-    String(ms).padStart(3, "0");
+  const s = Math.max(0, Math.floor(seconds || 0));
+  const h = String(Math.floor(s / 3600)).padStart(2, "0");
+  const m = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+  const sec = String(s % 60).padStart(2, "0");
+  return `${h}:${m}:${sec}`;
 }
 
-function downloadFile(content, name, type) {
-  const blob = new Blob([content], {type});
+function srtTime(seconds) {
+  const ms = Math.max(0, Math.floor((seconds || 0) * 1000));
+  const h = String(Math.floor(ms / 3600000)).padStart(2, "0");
+  const m = String(Math.floor((ms % 3600000) / 60000)).padStart(2, "0");
+  const s = String(Math.floor((ms % 60000) / 1000)).padStart(2, "0");
+  const milli = String(ms % 1000).padStart(3, "0");
+  return `${h}:${m}:${s},${milli}`;
+}
+
+function downloadFile(name, content, type) {
+  const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = name;
+  document.body.appendChild(a);
   a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
-startButton.addEventListener("click", () => {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+function cleanFilename(name) {
+  return name.replace(/\.[^/.]+$/, "").replace(/[^\w-]+/g, "_") || "lyrics";
+}
 
-  if (!SpeechRecognition) {
-    statusBox.textContent =
-      "Speech recognition is not supported in this browser. Try a supported browser such as Chrome, or use a local AI transcription model in a future version.";
-    return;
+async function getTranscriber() {
+  if (transcriber) return transcriber;
+
+  setStatus(
+    "Loading AI model...\n" +
+    "The first download can be large. Wait for it to finish."
+  );
+
+  transcriber = await pipeline(
+    "automatic-speech-recognition",
+    "Xenova/whisper-tiny",
+    {
+      progress_callback: (data) => {
+        if (stopRequested) return;
+        if (data.status === "progress" && Number.isFinite(data.progress)) {
+          setStatus(
+            `Downloading AI model: ${data.file || "model file"}\n` +
+            `${Math.round(data.progress)}% complete`
+          );
+          setProgress(data.progress);
+        } else if (data.status === "done") {
+          setStatus("Model file downloaded. Preparing AI...");
+        } else if (data.status === "ready") {
+          setStatus("AI model ready.");
+        }
+      }
+    }
+  );
+
+  return transcriber;
+}
+
+async function decodeAudio(file) {
+  setStatus("Reading audio file...");
+  const arrayBuffer = await file.arrayBuffer();
+
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    throw new Error("This browser does not support audio decoding.");
   }
 
-  if (listening) return;
+  const context = new AudioContextClass();
+  try {
+    const decoded = await context.decodeAudioData(arrayBuffer.slice(0));
+    const channelCount = decoded.numberOfChannels;
+    const length = decoded.length;
+    const mono = new Float32Array(length);
 
-  recognition = new SpeechRecognition();
-  recognition.lang = document.getElementById("language").value;
-  recognition.continuous = true;
-  recognition.interimResults = true;
-
-  let sessionStart = Date.now();
-  let sessionFinal = "";
-
-  recognition.onstart = () => {
-    listening = true;
-    startButton.disabled = true;
-    stopButton.disabled = false;
-    statusBox.textContent =
-      "Listening through your microphone. Play the song aloud now.";
-  };
-
-  recognition.onresult = event => {
-    let interim = "";
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const text = event.results[i][0].transcript.trim();
-      if (!text) continue;
-
-      if (event.results[i].isFinal) {
-        sessionFinal += (sessionFinal ? " " : "") + text;
-        const elapsed = (Date.now() - sessionStart) / 1000;
-        segments.push({time: elapsed, text});
-      } else {
-        interim += text + " ";
+    for (let c = 0; c < channelCount; c++) {
+      const channel = decoded.getChannelData(c);
+      for (let i = 0; i < length; i++) {
+        mono[i] += channel[i] / channelCount;
       }
     }
 
-    finalTranscript = [finalTranscript, sessionFinal]
-      .filter(Boolean).join(" ").trim();
+    return { samples: mono, sampleRate: decoded.sampleRate };
+  } finally {
+    await context.close();
+  }
+}
 
-    lyrics.value = [finalTranscript, interim.trim()]
-      .filter(Boolean).join(" ");
-    renderSegments();
-  };
+function resampleLinear(input, inputRate, outputRate) {
+  if (inputRate === outputRate) return input;
 
-  recognition.onerror = event => {
-    statusBox.textContent = "Recognition issue: " + event.error +
-      ". Check microphone permissions and browser support.";
-  };
+  const ratio = inputRate / outputRate;
+  const outputLength = Math.floor(input.length / ratio);
+  const output = new Float32Array(outputLength);
 
-  recognition.onend = () => {
-    listening = false;
-    startButton.disabled = false;
-    stopButton.disabled = true;
-    statusBox.textContent =
-      "Recognition stopped. Review and correct the lyrics before exporting.";
-  };
+  for (let i = 0; i < outputLength; i++) {
+    const position = i * ratio;
+    const left = Math.floor(position);
+    const right = Math.min(left + 1, input.length - 1);
+    const fraction = position - left;
+    output[i] = input[left] * (1 - fraction) + input[right] * fraction;
+  }
+
+  return output;
+}
+
+async function transcribeAudio() {
+  if (!selectedFile || isProcessing) return;
+
+  isProcessing = true;
+  stopRequested = false;
+  transcribeBtn.disabled = true;
+  cancelBtn.disabled = false;
+  audioFile.disabled = true;
+  subtitleSegments = [];
+  transcript.value = "";
+  setProgress(0);
 
   try {
-    recognition.start();
+    const model = await getTranscriber();
+    if (stopRequested) throw new Error("Processing stopped.");
+
+    const decoded = await decodeAudio(selectedFile);
+    if (stopRequested) throw new Error("Processing stopped.");
+
+    const audio16k = resampleLinear(
+      decoded.samples, decoded.sampleRate, 16000
+    );
+
+    // Whisper processes manageable audio chunks rather than the entire
+    // long recording in one request. This helps with memory usage.
+    const chunkSeconds = 25;
+    const chunkSize = chunkSeconds * 16000;
+    const totalChunks = Math.ceil(audio16k.length / chunkSize);
+    const duration = audio16k.length / 16000;
+    const allText = [];
+
+    for (let i = 0; i < totalChunks; i++) {
+      if (stopRequested) throw new Error("Processing stopped.");
+
+      const startSample = i * chunkSize;
+      const endSample = Math.min(startSample + chunkSize, audio16k.length);
+      const chunk = audio16k.slice(startSample, endSample);
+      const startSeconds = startSample / 16000;
+
+      setStatus(
+        `Transcribing audio chunk ${i + 1} of ${totalChunks}...\n` +
+        `Approximate audio position: ${formatTime(startSeconds)} / ${formatTime(duration)}`
+      );
+      setProgress((i / totalChunks) * 100);
+
+      const lang = languageSelect.value;
+      const options = {
+        chunk_length_s: 20,
+        stride_length_s: 4,
+        return_timestamps: true
+      };
+
+      if (lang !== "auto") {
+        options.language = lang;
+        options.task = "transcribe";
+      }
+
+      const result = await model(chunk, options);
+      if (stopRequested) throw new Error("Processing stopped.");
+
+      const text = (result.text || "").trim();
+      if (text) allText.push(text);
+
+      if (Array.isArray(result.chunks) && result.chunks.length) {
+        for (const part of result.chunks) {
+          const words = (part.text || "").trim();
+          if (!words) continue;
+
+          const timestamp = part.timestamp || [0, 0];
+          subtitleSegments.push({
+            start: startSeconds + (Number(timestamp[0]) || 0),
+            end: startSeconds + (Number(timestamp[1]) || 0),
+            text: words
+          });
+        }
+      }
+
+      transcript.value = allText.join("\n\n");
+      setProgress(((i + 1) / totalChunks) * 100);
+    }
+
+    if (!stopRequested) {
+      setStatus("Transcription finished. Review the text and correct any errors.");
+      if (!subtitleSegments.length) {
+        setStatus(
+          "Transcription finished. This model did not return usable timestamps; " +
+          "TXT download is available, but SRT may be empty."
+        );
+      }
+    }
   } catch (error) {
-    statusBox.textContent = "Could not start: " + error.message;
+    console.error(error);
+    setStatus(
+      (stopRequested ? "Processing stopped." : "Could not complete transcription.") +
+      "\n" + (error?.message || String(error)) +
+      "\nTry a shorter audio file or a modern browser with more available memory."
+    );
+  } finally {
+    isProcessing = false;
+    stopRequested = false;
+    transcribeBtn.disabled = !selectedFile;
+    cancelBtn.disabled = true;
+    audioFile.disabled = false;
   }
+}
+
+transcribeBtn.addEventListener("click", transcribeAudio);
+
+cancelBtn.addEventListener("click", () => {
+  stopRequested = true;
+  cancelBtn.disabled = true;
+  setStatus("Stopping after the current AI operation...");
 });
 
-stopButton.addEventListener("click", () => {
-  if (recognition && listening) recognition.stop();
-});
-
-document.getElementById("copy").addEventListener("click", async () => {
-  if (!lyrics.value.trim()) {
-    statusBox.textContent = "There are no lyrics to copy.";
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  if (!transcript.value.trim()) {
+    setStatus("There are no lyrics to copy yet.");
     return;
   }
+
   try {
-    await navigator.clipboard.writeText(lyrics.value);
-    statusBox.textContent = "Lyrics copied.";
+    await navigator.clipboard.writeText(transcript.value);
+    setStatus("Lyrics copied to clipboard.");
   } catch {
-    lyrics.select();
-    statusBox.textContent = "Select the text and copy it manually.";
+    transcript.focus();
+    transcript.select();
+    const copied = document.execCommand("copy");
+    setStatus(copied
+      ? "Lyrics copied."
+      : "Select the text and use your phone's Copy option.");
   }
 });
 
-document.getElementById("txt").addEventListener("click", () => {
-  if (!lyrics.value.trim()) {
-    statusBox.textContent = "No lyrics to download.";
+document.getElementById("txtBtn").addEventListener("click", () => {
+  if (!transcript.value.trim()) {
+    setStatus("Transcribe or enter some lyrics first.");
     return;
   }
-  downloadFile(lyrics.value, "lyrics-ai-rsa.txt", "text/plain;charset=utf-8");
+
+  downloadFile(
+    cleanFilename(selectedFile?.name || "lyrics") + ".txt",
+    transcript.value,
+    "text/plain;charset=utf-8"
+  );
 });
 
-document.getElementById("srt").addEventListener("click", () => {
-  if (!segments.length) {
-    statusBox.textContent = "No timestamped segments to export.";
+document.getElementById("srtBtn").addEventListener("click", () => {
+  if (!subtitleSegments.length) {
+    setStatus("No timestamps are available to export as SRT.");
     return;
   }
 
-  const srtTime = s => {
-    const ms = Math.floor((s % 1) * 1000);
-    const total = Math.floor(s);
-    const hh = String(Math.floor(total / 3600)).padStart(2, "0");
-    const mm = String(Math.floor(total / 60) % 60).padStart(2, "0");
-    const ss = String(total % 60).padStart(2, "0");
-    return `${hh}:${mm}:${ss},${String(ms).padStart(3, "0")}`;
-  };
-
-  const srt = segments.map((seg, i) => {
-    const end = i + 1 < segments.length
-      ? Math.max(seg.time + 0.5, segments[i + 1].time)
-      : seg.time + 3;
-    return `${i + 1}\n${srtTime(seg.time)} --> ${srtTime(end)}\n${seg.text}`;
+  const srt = subtitleSegments.map((item, index) => {
+    const start = Math.max(0, item.start);
+    const end = Math.max(start + 0.1, item.end);
+    return `${index + 1}\n${srtTime(start)} --> ${srtTime(end)}\n${item.text}`;
   }).join("\n\n");
 
-  downloadFile(srt, "lyrics-ai-rsa.srt", "application/x-subrip;charset=utf-8");
+  downloadFile(
+    cleanFilename(selectedFile?.name || "lyrics") + ".srt",
+    srt,
+    "application/x-subrip;charset=utf-8"
+  );
 });
 
-document.getElementById("clear").addEventListener("click", () => {
-  lyrics.value = "";
-  finalTranscript = "";
-  segments = [];
-  renderSegments();
-  statusBox.textContent = "Transcript cleared.";
-});
+document.getElementById("clearBtn").addEventListener("click", () => {
+  if (isProcessing) {
+    setStatus("Stop processing before clearing the transcript.");
+    return;
+  }
 
-lyrics.addEventListener("input", () => {
-  // The editable transcript is intentionally independent of captured segments.
+  transcript.value = "";
+  subtitleSegments = [];
+  setStatus("Transcript cleared.");
+  setProgress(0);
 });
 </script>
 </body>
